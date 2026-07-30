@@ -1,0 +1,140 @@
+<UserControl x:Class="SentinelX.App.Views.SpeedTestView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SentinelX.App.Controls">
+    <ScrollViewer Background="{DynamicResource BgPrimaryBrush}" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="28">
+
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="Speed Test" FontSize="22" FontWeight="SemiBold"
+                           Foreground="{DynamicResource FgPrimaryBrush}" VerticalAlignment="Center" />
+                <Button Grid.Column="1" Content="Cancel" Margin="0,0,10,0"
+                        Command="{Binding CancelTestCommand}">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource NavPillButtonStyle}">
+                            <Setter Property="Background" Value="{DynamicResource DividerBrush}" />
+                            <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <Button Grid.Column="2" Content="Start Test" Command="{Binding StartTestCommand}"
+                        Style="{StaticResource PrimaryButtonStyle}" />
+            </Grid>
+
+            <Border Background="{DynamicResource BgPanelBrush}" CornerRadius="14" Padding="20" Margin="0,0,0,16"
+                    BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1">
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="{Binding StatusText}" FontSize="13"
+                                   Foreground="{DynamicResource FgSecondaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Grid.Column="1" Text="{Binding CurrentPhase}" FontSize="12" FontWeight="Bold"
+                                   Foreground="{DynamicResource AccentBlueBrush}" VerticalAlignment="Center" />
+                    </Grid>
+
+                    <TextBlock FontSize="30" FontWeight="Bold" Margin="0,10,0,0"
+                               Foreground="{DynamicResource FgPrimaryBrush}">
+                        <Run Text="{Binding CurrentMbps, Mode=OneWay, StringFormat={}{0:0.0}}" />
+                        <Run Text=" Mbps" FontSize="14" Foreground="{DynamicResource FgSecondaryBrush}" />
+                    </TextBlock>
+
+                    <controls:SparklineControl Values="{Binding LiveSamples}" Height="60" Margin="0,10,0,0" />
+                </StackPanel>
+            </Border>
+
+            <StackPanel Visibility="{Binding HasResult, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <TextBlock Text="{Binding ErrorText}" FontSize="12" TextWrapping="Wrap" Margin="0,0,0,12"
+                           Foreground="{DynamicResource AccentRedBrush}"
+                           Visibility="{Binding ErrorText, Converter={StaticResource StringToVisibilityConverter}}" />
+
+                <UniformGrid Columns="4" Rows="1">
+                    <Border Background="{DynamicResource BgPanelBrush}" CornerRadius="14" Padding="18"
+                            Margin="0,0,8,16" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Download" FontSize="11" Foreground="{DynamicResource FgSecondaryBrush}" />
+                            <TextBlock FontSize="20" FontWeight="Bold" Foreground="{DynamicResource FgPrimaryBrush}">
+                                <Run Text="{Binding DownloadMbps, Mode=OneWay, StringFormat={}{0:0.0}}" />
+                                <Run Text=" Mbps" FontSize="11" Foreground="{DynamicResource FgSecondaryBrush}" />
+                            </TextBlock>
+                            <TextBlock FontSize="10" Foreground="{DynamicResource FgSecondaryBrush}" Margin="0,4,0,0">
+                                <Run Text="worst sec: " />
+                                <Run Text="{Binding DownloadMinMbps, Mode=OneWay, StringFormat={}{0:0.0}}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource BgPanelBrush}" CornerRadius="14" Padding="18"
+                            Margin="8,0,8,16" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Upload" FontSize="11" Foreground="{DynamicResource FgSecondaryBrush}" />
+                                <Ellipse Grid.Column="1" Width="10" Height="10"
+                                         Fill="{Binding UploadSeverity, Converter={StaticResource SeverityToBrushConverter}}" />
+                            </Grid>
+                            <TextBlock FontSize="20" FontWeight="Bold" Foreground="{DynamicResource FgPrimaryBrush}">
+                                <Run Text="{Binding UploadMbps, Mode=OneWay, StringFormat={}{0:0.0}}" />
+                                <Run Text=" Mbps" FontSize="11" Foreground="{DynamicResource FgSecondaryBrush}" />
+                            </TextBlock>
+                            <TextBlock FontSize="10" Foreground="{DynamicResource FgSecondaryBrush}" Margin="0,4,0,0">
+                                <Run Text="worst sec: " />
+                                <Run Text="{Binding UploadMinMbps, Mode=OneWay, StringFormat={}{0:0.0}}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource BgPanelBrush}" CornerRadius="14" Padding="18"
+                            Margin="8,0,8,16" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1">
+                        <StackPanel>
+                            <TextBlock Text="Ping (idle / loaded)" FontSize="11" Foreground="{DynamicResource FgSecondaryBrush}" />
+                            <TextBlock FontSize="20" FontWeight="Bold" Foreground="{DynamicResource FgPrimaryBrush}">
+                                <Run Text="{Binding IdlePingMs, Mode=OneWay, StringFormat={}{0:0}}" />
+                                <Run Text=" / " FontSize="14" />
+                                <Run Text="{Binding LoadedPingMs, Mode=OneWay, StringFormat={}{0:0}}" />
+                                <Run Text=" ms" FontSize="11" Foreground="{DynamicResource FgSecondaryBrush}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Background="{DynamicResource BgPanelBrush}" CornerRadius="14" Padding="18"
+                            Margin="8,0,0,16" BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1">
+                        <StackPanel>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Text="Bufferbloat" FontSize="11" Foreground="{DynamicResource FgSecondaryBrush}" />
+                                <Ellipse Grid.Column="1" Width="10" Height="10"
+                                         Fill="{Binding BufferbloatSeverity, Converter={StaticResource SeverityToBrushConverter}}" />
+                            </Grid>
+                            <TextBlock FontSize="20" FontWeight="Bold" Foreground="{DynamicResource FgPrimaryBrush}">
+                                <Run Text="{Binding BufferbloatMs, Mode=OneWay, StringFormat={}{0:0}}" />
+                                <Run Text=" ms" FontSize="11" Foreground="{DynamicResource FgSecondaryBrush}" />
+                            </TextBlock>
+                        </StackPanel>
+                    </Border>
+                </UniformGrid>
+
+                <Border Background="{DynamicResource BgPanelBrush}" CornerRadius="14" Padding="18"
+                        BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1"
+                        Visibility="{Binding SuggestedBitrateText, Converter={StaticResource StringToVisibilityConverter}}">
+                    <TextBlock Text="{Binding SuggestedBitrateText}" FontSize="13" TextWrapping="Wrap"
+                               Foreground="{DynamicResource AccentBlueBrush}" />
+                </Border>
+            </StackPanel>
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

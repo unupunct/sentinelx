@@ -1,0 +1,15 @@
+<UserControl x:Class="SentinelX.App.Controls.ScoreGaugeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Width="200" Height="200">
+    <Grid>
+        <Ellipse Width="180" Height="180" Stroke="{DynamicResource DividerBrush}" StrokeThickness="14" />
+        <Path x:Name="ArcPath" StrokeThickness="14" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="ScoreText" FontSize="46" FontWeight="Bold" HorizontalAlignment="Center"
+                       Foreground="{DynamicResource FgPrimaryBrush}" />
+            <TextBlock Text="STABILITY SCORE" FontSize="10" HorizontalAlignment="Center"
+                       Foreground="{DynamicResource FgSecondaryBrush}" />
+        </StackPanel>
+    </Grid>
+</UserControl>

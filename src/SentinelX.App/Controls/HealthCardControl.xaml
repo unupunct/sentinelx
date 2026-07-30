@@ -1,0 +1,51 @@
+<UserControl x:Class="SentinelX.App.Controls.HealthCardControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="clr-namespace:SentinelX.App.Controls"
+             Width="340">
+    <Border Background="{DynamicResource BgPanelBrush}" CornerRadius="14" Padding="18"
+            BorderBrush="{DynamicResource DividerBrush}" BorderThickness="1">
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="{Binding DisplayName}" FontSize="16" FontWeight="SemiBold"
+                           Foreground="{DynamicResource FgPrimaryBrush}" VerticalAlignment="Center" />
+
+                <Border Grid.Column="1" CornerRadius="10" Padding="9,3"
+                        Background="{Binding Score, Converter={StaticResource ScoreToBrushConverter}}">
+                    <TextBlock Text="{Binding Score}" FontWeight="Bold" Foreground="White" FontSize="12" />
+                </Border>
+            </Grid>
+
+            <controls:SparklineControl Values="{Binding LiveSamples}" Height="36" Margin="0,14,0,0"
+                                        Visibility="{Binding LiveSamples.Count, Converter={StaticResource CountToVisibilityConverter}}" />
+
+            <ItemsControl ItemsSource="{Binding Findings}" Margin="0,4,0,0">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderBrush="{DynamicResource DividerBrush}" BorderThickness="0,1,0,0"
+                                Padding="0,10,0,0" Margin="0,10,0,0">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="13"
+                                           TextWrapping="Wrap" Foreground="{DynamicResource FgPrimaryBrush}" />
+                                <TextBlock Text="{Binding Explanation}" FontSize="12" TextWrapping="Wrap"
+                                           Foreground="{DynamicResource FgSecondaryBrush}" Margin="0,4,0,0" />
+                                <TextBlock Text="{Binding RecommendedAction}" FontSize="12" TextWrapping="Wrap"
+                                           Foreground="{DynamicResource AccentBlueBrush}" Margin="0,4,0,0"
+                                           FontStyle="Italic" />
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <TextBlock Text="No issues found" FontSize="12" Margin="0,10,0,0"
+                       Foreground="{DynamicResource AccentGreenBrush}"
+                       Visibility="{Binding Findings.Count, Converter={StaticResource CountToVisibilityConverter}, ConverterParameter=Invert}" />
+        </StackPanel>
+    </Border>
+</UserControl>

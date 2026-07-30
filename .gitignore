@@ -1,0 +1,18 @@
+# Build outputs (regenerate via publish.ps1 / dotnet build)
+bin/
+obj/
+publish/
+
+# Local dev data
+*.db
+*.db-shm
+*.db-wal
+*.log
+logs/
+out.json
+soak-result.txt
+obs-audit.json
+
+# Editor/IDE
+.vs/
+.idea/
