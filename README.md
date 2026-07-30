@@ -1,5 +1,6 @@
 # Sentinel X
 
+[![Release](https://img.shields.io/github/v/release/unupunct/sentinelx)](https://github.com/unupunct/sentinelx/releases/latest)
 [![License: MIT](https://img.shields.io/github/license/unupunct/sentinelx)](LICENSE)
 
 A Windows observability platform for streamers/creators — OBS Studio and SplitCam diagnostics,
